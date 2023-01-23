@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Cuenta!</title>
+</head>
+<body>
+<h1>Creacion de cuentas!!</h1>
+<p th:text="${message}"></p>
+<form action="/signup" method="post">
+    Nombre Real:
+    <br>
+    <br>
+    <input type="text" name="realname"/>
+    <br>
+    <br>
+    Usuario:
+    <br>
+    <br>
+    <input type="text" name="user"/>
+    <br>
+    <br>
+    Contraseña:
+    <br>
+    <br>
+    <input type="password" name="passwd1"/>
+    <br>
+    <br>
+    Repetir Contraseña:
+    <br>
+    <br>
+    <input type="password" name="passwd2"/>
+    <br>
+    <br>
+    <input type="submit"/>
+</form>
+<p>Iniciar Sessión <button onclick="window.location.pathname = '/login'">Login</button></p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h1>Bienvenido al Login!!</h1>
+<h2>Inicia session con tus credenciales!</h2>
+<form action="/login" method="post">
+    Usuario:
+    <br>
+    <br>
+    <input type="text" name="user"/>
+    <br>
+    <br>
+    Contraseña:
+    <br>
+    <br>
+    <input type="password" name="passwd"/>
+    <br>
+    <br>
+    <input type="submit"/>
+</form>
+<p>¿Aun no tienes cuenta? <button onclick="window.location.pathname = '/signup'">Signup</button></p>
+</body>
+</html>
