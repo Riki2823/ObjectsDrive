@@ -7,7 +7,7 @@
 <body>
 <h1>Creacion de cuentas!!</h1>
 <p th:text="${message}"></p>
-<form action="/signup" method="post">
+<form action="/signup" method="post" name="login" onsubmit="return validateForm()">
     Nombre Real:
     <br>
     <br>
@@ -35,5 +35,64 @@
     <input type="submit"/>
 </form>
 <p>Iniciar Sessión <button onclick="window.location.pathname = '/login'">Login</button></p>
+<script>
+    function validateForm(){
+        let realname = document.forms["login"]["realname"].value;
+        if(realname.length <=3){
+            alert("El Nombre Real debe ser superior a 3 caracteres");
+            return false;
+        }
+        
+        let nickName = document.forms["login"]["user"].value;
+        if(nickName.length <= 3){
+            alert("El Usuario o nickName debe ser superior a 3 caracteres");
+            return false;
+        }else if(containsUpperCase(nickName)){
+            alert("El nombre de usuario o nickName no debe contener mayusculas");
+            return false;
+        }
+
+        let passwd1 = document.forms["login"]["passwd1"];
+        let passwd2 = document.forms["login"]["passwd2"];
+
+        if(passwd1 != passwd2){
+            alert("Las contraseñas deben coincidir");
+            return false;
+        }else if(passwd1.length <= 6){
+            alert("Las contraseñas deben tener una longitud mayor a 6 caracteres");
+            return false;
+        }else if(!containsLetterAndNumber(passwd1)){
+            alert("Las contraseñas deben incluir al menos un numero y una letra");
+            return false;
+        }
+         
+    }
+
+    function containsUpperCase(str) {
+    for (let i = 0; i < str.length; i++) {
+        if (str.charCodeAt(i) >= 65 && str.charCodeAt(i) <= 90) {
+            return true;
+        }
+    }
+    return false;
+
+    function containsLetterAndNumber(str) {
+        let letter = false;
+        let number = false;
+        for (let i = 0; i < str.length; i++) {
+          if (str[i].match(/[a-z]/i)) {
+            letter = true;
+          }
+          if (str[i].match(/[0-9]/)) {
+            number = true;
+          }
+          if (letter && number) {
+            return true;
+          }
+        }
+        return false;
+    }
+}
+</script>
 </body>
 </html>
