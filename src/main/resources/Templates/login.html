@@ -7,6 +7,7 @@
 <body>
 <h1>Bienvenido al Login!!</h1>
 <h2>Inicia session con tus credenciales!</h2>
+<p th:text="${message}"></p>
 <form action="/login" method="post">
     Usuario:
     <br>
@@ -17,7 +18,7 @@
     Contraseña:
     <br>
     <br>
-    <input type="password" name="passwd"/>
+    <input type="password" name="clientPasswd"/>
     <br>
     <br>
     <input type="submit"/>

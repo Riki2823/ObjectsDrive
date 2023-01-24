@@ -27,7 +27,14 @@ public class MyService {
     }
 
     public String getPasswdByUser(String user) {
-
         return userDao.getPasswdByUser(user);
+    }
+
+    public boolean userExist(String user) {
+        return userDao.userExist(user);
+    }
+
+    public User getUser(String user) {
+        return userDao.getUser(user);
     }
 }

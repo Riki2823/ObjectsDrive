@@ -13,4 +13,8 @@ public interface UserDao {
     List<String> getAllNicksName();
 
     String getPasswdByUser(String user);
+
+    boolean userExist(String user);
+
+    User getUser(String user);
 }
