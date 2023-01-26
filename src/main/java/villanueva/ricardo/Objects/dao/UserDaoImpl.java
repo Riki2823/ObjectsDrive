@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
         return (rs.getString("nickname"));
     };
 
-    private final RowMapper<String> passwdRowWapper = (rs, rn) ->{
+    private final RowMapper<String> passwdRowMapper = (rs, rn) ->{
         return (rs.getString("password"));
     };
 
@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public String getPasswdByUser(String user) {
-        List<String> passwd = jdbcTemplate.query("select * from Users WHERE nickname = \"" + user + "\"", passwdRowWapper);
+        List<String> passwd = jdbcTemplate.query("select * from Users WHERE nickname = \"" + user + "\"", passwdRowMapper);
         return passwd.get(0);
     }
 

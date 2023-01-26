@@ -1,7 +1,10 @@
 package villanueva.ricardo.Objects.Service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import villanueva.ricardo.Objects.Model.Bucket;
 import villanueva.ricardo.Objects.Model.User;
+import villanueva.ricardo.Objects.dao.BucketDao;
 import villanueva.ricardo.Objects.dao.UserDao;
 
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.List;
 public class MyService {
     @Autowired
     UserDao userDao;
+    @Autowired
+    BucketDao bucketDao;
 
     public void addUser(String name, String passwd, String realname){
         User u = new User(realname, name, passwd);
@@ -36,5 +41,13 @@ public class MyService {
 
     public User getUser(String user) {
         return userDao.getUser(user);
+    }
+
+    public List<Bucket> getBucketsByUser(String username) {
+        return bucketDao.getBucketsByUser(username);
+    }
+
+    public void addBucket(String bucketName, String userName) {
+        bucketDao.addBucket(bucketName, userName);
     }
 }

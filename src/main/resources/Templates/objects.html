@@ -5,7 +5,25 @@
     <title>Objects</title>
 </head>
 <body>
-<h1>Buenas [(${userName})]!!! Bienvenido a la lista de tus objetos</h1>
-<button onclick="window.location.pathname = '/settings'">Ajustes</button>
+    <nav th:replace="navbar.html :: nav"></nav>
+    <h1>Buenas [(${userName})]!!! Bienvenido a la lista de tus objetos</h1>
+    <form action="/objects" method="post">
+        <br>
+        <br>
+        <label for="bucketName">Nombre del Bucket: </label>
+        <br>
+        <input type="text" name="bucketName" required>
+        <br>
+        <br>
+        <input type="submit" value="Guardar">
+    </form>
+
+    <div>
+        <table>
+            <tr th:each="b : ${buckets}">
+                <td th:text="${b.name}"></td>
+            </tr>
+        </table>    
+    </div>
 </body>
-</html>
+</html> 

@@ -6,11 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import villanueva.ricardo.Objects.Model.Bucket;
 import villanueva.ricardo.Objects.Model.User;
 import villanueva.ricardo.Objects.Service.MyService;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.List;
 
 @Controller
 public class AppController {
@@ -64,9 +66,17 @@ public class AppController {
     public String objects(HttpSession session, Model m){
         User u = service.getUser((String) session.getAttribute("user"));
         m.addAttribute("userName", u.getRealname());
+        List<Bucket> buckets = service.getBucketsByUser(u.getUsername());
+        m.addAttribute("buckets", buckets);
         return "objects";
     }
 
+    @PostMapping("/objects")
+    public String postObjects(HttpSession session, String bucketName, Model m) {
+        String userName = (String) session.getAttribute("user");
+        service.addBucket(bucketName, userName);
+        return "redirect:objects";
+    }
     //------------------------------------------------------------------------------
     @GetMapping("/signup")
     public String signupget(){return "signup";}
