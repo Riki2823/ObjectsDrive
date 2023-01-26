@@ -73,10 +73,6 @@ public class AppController {
 
     @PostMapping("/signup")
     public String signuppost(String user, String passwd1, String passwd2, String realname, Model m){
-        if (!checkPassd(passwd2, passwd1)){
-            m.addAttribute("message", "Las contraseñas introducidas no son iguales");
-            return "signup";
-        }
         if (service.nicknameExists(user)){
             m.addAttribute("message", "El nombre de usuario introducido ya existe!");
             return "signup";
