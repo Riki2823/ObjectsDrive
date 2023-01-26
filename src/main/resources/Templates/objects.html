@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Objects</title>
+    <link th:href="@{/style/styleObjects.css}" rel="stylesheet" />
+    <link th:href="@{/style/navStyle.css}" rel="stylesheet" />
 </head>
 <body>
     <nav th:replace="navbar.html :: nav"></nav>
-    <h1>Buenas [(${userName})]!!! Bienvenido a la lista de tus objetos</h1>
-    <form action="/objects" method="post">
-        <br>
-        <br>
-        <label for="bucketName">Nombre del Bucket: </label>
-        <br>
-        <input type="text" name="bucketName" required>
-        <br>
-        <br>
-        <input type="submit" value="Guardar">
-    </form>
-
-    <div>
-        <table>
-            <tr th:each="b : ${buckets}">
-                <td th:text="${b.name}"></td>
-            </tr>
-        </table>    
+    <div id="mainContainer">
+        <h1>Buenas [(${userName})]!!! Bienvenido a la lista de tus buckets</h1>
+        <form action="/objects" method="post">
+            <br>
+            <br>
+            <label for="bucketName">Nuevo Bucket: </label>
+            <br>
+            <input type="text" name="bucketName" required>
+            <br>
+            <br>
+            <input type="submit" value="Crear">
+        </form>
+    
+        <div>
+            <table>
+                <tr th:each="b : ${buckets}">
+                    <td th:text="${b.name}"></td>
+                </tr>
+            </table>    
+        </div>
+    
     </div>
 </body>
 </html> 

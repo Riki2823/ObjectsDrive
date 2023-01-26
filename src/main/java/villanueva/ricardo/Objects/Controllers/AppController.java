@@ -26,6 +26,12 @@ public class AppController {
         }
         return "home";
     }
+
+    @PostMapping("/")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "home";
+    }
     //------------------------------------------------------------------------------
 
     @GetMapping("/settings")
@@ -40,7 +46,6 @@ public class AppController {
         if (session.getAttribute("user") != null){
             return "redirect:/objects";
         }
-
         return "login";
     }
 
