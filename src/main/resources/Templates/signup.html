@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear Cuenta!</title>
+    <link th:href="@{/style/styleSignup.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Creacion de cuentas!!</h1>
-<p th:text="${message}"></p>
-<form action="/signup" method="post" name="login" onsubmit="return validateForm()">
-    Nombre Real:
-    <br>
-    <br>
-    <input type="text" name="realname" required/>
-    <br>
-    <br>
-    Usuario:
-    <br>
-    <br>
-    <input type="text" name="user" required/>
-    <br>
-    <br>
-    Contraseña:
-    <br>
-    <br>
-    <input type="password" name="passwd1" required/>
-    <br>
-    <br>
-    Repetir Contraseña:
-    <br>
-    <br>
-    <input type="password" name="passwd2" required/>
-    <br>
-    <br>
-    <input type="submit"/>
-</form>
-<p>Iniciar Sessión <button onclick="window.location.pathname = '/login'">Login</button></p>
+    <div id="mainContainer">
+        <h1>Creacion de cuentas!!</h1>
+        <p th:text="${message}"></p>
+        <form action="/signup" method="post" name="login" onsubmit="return validateForm()">
+            <br>
+            <br>
+            <label for="realname">Nombre Real: </label>
+            <br>
+            <input type="text" name="realname" required/>
+            <br>
+            <label for="user">User:</label>
+            <br>
+            <input type="text" name="user" required/>
+            <br>
+            <label for="passwd1">Contraseña:</label>
+            <br>
+            <input type="password" name="passwd1" required/>
+            <br>
+            <label for="passwd2">Repetir Contraseña:</label>
+            <br>
+            <input type="password" name="passwd2" required/>
+            <br>
+            <br>
+            <input type="submit"/>
+            <br>
+            <br>
+        </form>
+        <p>Iniciar Sessión <button onclick="window.location.pathname = '/login'">Login</button></p>
+    </div>
+
 <script>
 function validateForm(){
     let realname = document.forms["login"]["realname"].value;

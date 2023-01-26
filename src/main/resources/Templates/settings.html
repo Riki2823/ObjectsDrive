@@ -3,51 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajustes</title>
+    <link th:href="@{/style/stylesettings.css}" rel="stylesheet" />
+
 </head>
 <body>
-<h1>Esta es la pestaña de ajustes</h1>
-<h2>Aqui podrás cambiar tu Nombre real o cambiar tu contraseña</h2>
-
-<form action="/settings" method="post">
-  <label for="newName">Nuevo nombre real (si no deseas cambiar en nombre dejalo en blanco): </label>
-  <br>
-  <br>
-  <input type="text" id="newName"/>
-  <br>
-  <br>
-  Contraseña actual:
-  <br>
-  <br>
-  <input type="password" name="actualpasswd"/>
-  <br>
-  <br>
-  Nueva Contraseña:
-  <br>
-  <br>
-  <input type="password" id="newPasswd1"/>
-  <br>
-  <br>
-  Repita Contraseña nueva:
-  <br>
-  <br>
-  <input type="password" id="newPasswd2"/>
-  <br>
-  <br>
-  <input type="submit" value="Cambiar">
-  <br>
-  <br>
-  <br>
-  <br>
-</form>
-
-<form action="/settings" method="post" name="Delete acount">
-  <p>Si deseas eliminar tu cuenta debes escribir en el campo de abajo [(${nickName})]/EliminarCuenta</p>
-  <br>
-  <br>
-  <input type="text" name="validationDelete">
-  <br>
-  <br>
-  <input type="submit" style="background-color:red;">
-</form>
+  <div id="mainContainer">
+    <h1>Esta es la pestaña de ajustes</h1>
+    <h2>Aqui podrás cambiar tu Nombre real o cambiar tu contraseña</h2>
+    
+    <form action="/settings" method="post">
+      <br>
+      <br>
+      <label for="newName">Nuevo nombre real (si no deseas cambiar en nombre dejalo en blanco): </label>
+      <br>
+      <input type="text" id="newName"/>
+      <br>
+      <label for="actualpasswd">Nueva Contraseña:</label>
+      <br>
+      <input type="password" name="actualpasswd"/>
+      <br>
+      <label for="newPasswd1">Nueva Contraseña:</label>
+      <br>
+      <input type="password" id="newPasswd1"/>
+      <br>
+      <label for="newPasswd2">Repita Contraseña nueva:</label>
+      <br>
+      <input type="password" id="newPasswd2"/>
+      <br>
+      <br>
+      <input type="submit" value="Cambiar">
+      <br>
+      <br>
+      <br>
+      <br>
+    </form>
+    
+    <form action="/settings" method="post" name="Delete acount">
+      <p>Si deseas eliminar tu cuenta debes escribir en el campo de abajo [(${nickName})]/EliminarCuenta</p>
+      <br>
+      <br>
+      <input type="text" name="validationDelete">
+      <br>
+      <br>
+      <input type="submit" style="background-color:red;">
+    </form>
+  </div>
 </body>
 </html>
