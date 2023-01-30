@@ -5,11 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import villanueva.ricardo.Objects.Model.Bucket;
 import villanueva.ricardo.Objects.Model.User;
 import villanueva.ricardo.Objects.Service.MyService;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.List;
@@ -98,6 +102,24 @@ public class AppController {
         service.addUser(user, passwd, realname);
         m.addAttribute("message", "La creacion de una cuenta ha sido realizada correctamente");
         return "signup";
+    }
+    //------------------------------------------------------------------------------
+
+    @GetMapping("/objects/{bucket}")
+    public String seebucket(@PathVariable String bucket, Model m){
+        System.out.println(bucket + "En get");
+        m.addAttribute("bname", bucket);
+        return "bucketCont";
+    }
+
+    @PostMapping("/objects/{bucket}")
+    public String addObject(@PathVariable String bucket, @RequestParam("file") MultipartFile file){
+        try {
+            byte[] bytesFile = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "bucketCont";
     }
 
     //------------------------------------------------------------

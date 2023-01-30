@@ -25,6 +25,9 @@
             <table>
                 <tr th:each="b : ${buckets}">
                     <td th:text="${b.name}"></td>
+                    <td>
+                        <a th:href="@{'/objects/' + ${b.name}}">Ver contenido del bucket</a>
+                    </td>
                 </tr>
             </table>    
         </div>

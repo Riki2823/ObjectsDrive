@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title th:text="${bname}"></title>
+    <link th:href="@{/style/navStyle.css}" rel="stylesheet" />
+    <link th:href="@{/style/styleBucketView.css}" rel="stylesheet" />
+</head>
+<body>
+    <nav th:replace="navbar.html :: nav"></nav>
+    <form method="post" th:action="@{/objects/{bname}(bname=${bname})}" enctype="multipart/form-data">
+        <input type="file" name="file"/>  
+        <input type="submit" value="Subir Archivo">
+    </form>
+        
+</body>
+</html>

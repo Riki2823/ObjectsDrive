@@ -9,4 +9,5 @@ public interface BucketDao {
     List<Bucket> getBucketsByUser(String username);
 
     void addBucket(String bucketName, String userName);
+
 }

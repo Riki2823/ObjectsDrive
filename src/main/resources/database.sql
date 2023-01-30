@@ -8,6 +8,10 @@ INSERT INTO Users(nickname, password, nameC) VALUES
     ('usuario de pruebas', '1234', 'Usuario de Pruebas'),
     ('pere', '1234', 'Pere Negre');
 
-CREATE TABLE Bucket(owner varchar(100), name varchar(100), FOREIGN KEY (owner) REFERENCES Users(nickname));
+CREATE TABLE Bucket(owner varchar(100), name varchar(100), FOREIGN KEY (owner) REFERENCES Users(nickname), PRIMARY KEY(name));
 INSERT INTO Bucket(owner, name) VALUES
     ('pere', 'notas');
+
+CREATE TABLE Object(id int AUTO_INCREMENT, name varchar(100), owner varchar(100), bucketSrcName varchar(100), date varchar(10), PRIMARY KEY(id), FOREIGN KEY(owner) REFERENCES  Users(nickname), FOREIGN KEY(bucketSrcName) REFERENCES Bucket(name));
+
+CREATE TABLE File(id int, data LONGBLOB, hash varchar(100), FOREIGN KEY(id) REFERENCES Object(id));
