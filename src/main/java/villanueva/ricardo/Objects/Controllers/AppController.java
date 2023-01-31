@@ -7,15 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import villanueva.ricardo.Objects.Model.Bucket;
 import villanueva.ricardo.Objects.Model.User;
 import villanueva.ricardo.Objects.Service.MyService;
 
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.util.List;
 
 @Controller
@@ -59,7 +56,7 @@ public class AppController {
             m.addAttribute("message", "El usuario introducido no existe");
             return "login";
         }
-        String clientHased = getSHA256(clientPasswd);
+        String clientHased = service.getSHA256(clientPasswd);
         String serverPasswd = service.getPasswdByUser(user);
         if (clientHased.equals(serverPasswd)){
             session.setAttribute("user", user);
@@ -97,7 +94,7 @@ public class AppController {
             return "signup";
         }
 
-        String passwd = getSHA256(passwd1);
+        String passwd = service.getSHA256(passwd1);
 
         service.addUser(user, passwd, realname);
         m.addAttribute("message", "La creacion de una cuenta ha sido realizada correctamente");
@@ -107,17 +104,22 @@ public class AppController {
 
     @GetMapping("/objects/{bucket}")
     public String seebucket(@PathVariable String bucket, Model m){
-        System.out.println(bucket + "En get");
         m.addAttribute("bname", bucket);
         return "bucketCont";
     }
 
     @PostMapping("/objects/{bucket}")
-    public String addObject(@PathVariable String bucket, @RequestParam("file") MultipartFile file){
+    public String addObject(HttpSession session, @PathVariable String bucket, MultipartFile file){
         try {
             byte[] bytesFile = file.getBytes();
+            String nickname = (String) session.getAttribute("user");
             String name = file.getOriginalFilename();
-            System.out.println("name");
+            if (service.objectExists(name)){
+                System.out.println("Ya existe");
+            }else {
+                service.uploadFileFirstTime(bytesFile, bucket, name, nickname);
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -125,22 +127,6 @@ public class AppController {
     }
 
     //------------------------------------------------------------
-    private boolean checkPassd(String passwd2, String passwd1) {
-        return passwd1.equals(passwd2);
-    }
 
-    public static String getSHA256(String input){
 
-        String toReturn = null;
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.reset();
-            digest.update(input.getBytes("utf8"));
-            toReturn = String.format("%064x", new BigInteger(1, digest.digest()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return toReturn;
-    }
 }

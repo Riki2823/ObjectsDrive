@@ -64,5 +64,20 @@ td, th {
     text-align: left;
     padding: 8px;
     text-align: center;
+}
 
+#trash{
+    background-image: url("./img/trash.png");
+    background-size:contain;
+    background-repeat: no-repeat;
+    width: 55px;
+}
+
+#trash:hover{
+    background-color: red;
+}
+
+#tableBuckets{
+    display: flex;
+    justify-content: center;
 }

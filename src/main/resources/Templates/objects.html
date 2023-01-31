@@ -21,13 +21,14 @@
             <input type="submit" value="Crear">
         </form>
     
-        <div>
+        <div id="tableBuckets">
             <table>
                 <tr th:each="b : ${buckets}">
                     <td th:text="${b.name}"></td>
                     <td>
                         <a th:href="@{'/objects/' + ${b.name}}">Ver contenido del bucket</a>
                     </td>
+                    <td><button id="trash"></button></td>
                 </tr>
             </table>    
         </div>
