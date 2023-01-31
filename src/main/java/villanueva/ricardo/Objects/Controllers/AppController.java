@@ -116,6 +116,8 @@ public class AppController {
     public String addObject(@PathVariable String bucket, @RequestParam("file") MultipartFile file){
         try {
             byte[] bytesFile = file.getBytes();
+            String name = file.getOriginalFilename();
+            System.out.println("name");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
