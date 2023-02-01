@@ -12,25 +12,25 @@
 
   <div id="mainContainer">
     <h1>Esta es la pestaña de ajustes</h1>
-    <h2>Aqui podrás cambiar tu Nombre real o cambiar tu contraseña</h2>
-    <form action="/settings" method="post">
+
+    <p th:text="${message}" style="color: red;"></p>
+
+    <br>
+    <form action="/settings" method="post" name="passw" onsubmit="return validateFormPasswd()">
+      <h2>Cambiar Contraseña</h2>
       <br>
-      <br>
-      <label for="newName">Nuevo nombre real (si no deseas cambiar en nombre dejalo en blanco): </label>
-      <br>
-      <input type="text" id="newName"/>
-      <br>
-      <label for="actualpasswd">Nueva Contraseña:</label>
-      <br>
-      <input type="password" name="actualpasswd"/>
       <br>
       <label for="newPasswd1">Nueva Contraseña:</label>
       <br>
-      <input type="password" id="newPasswd1"/>
+      <input type="password" id="newPasswd1" name="newPasswd1" required/>
       <br>
       <label for="newPasswd2">Repita Contraseña nueva:</label>
       <br>
-      <input type="password" id="newPasswd2"/>
+      <input type="password" id="newPasswd2" name="newPasswd2" required/>
+      <br>
+      <label for="actualpasswd">Contraseña actual:</label>
+      <br>
+      <input type="password" name="actualpasswd" required/>
       <br>
       <br>
       <input type="submit" value="Cambiar">
@@ -39,16 +39,100 @@
       <br>
       <br>
     </form>
-    
-    <form action="/settings" method="post" name="Delete acount">
+
+    <form action="/settings" method="post" name="name" onsubmit="return validateFormName()">
+      <h2>Cambiar Nombre real</h2>
+      <br>
+      <br>
+      <label for="newName">Nuevo nombre real</label>
+      <br>
+      <input type="text" id="newName" name="newName" required/>
+      <br>
+      <label for="actualpasswd">Contraseña actual:</label>
+      <br>
+      <input type="password" name="actualpasswd" required/>
+      <br>
+      <br>
+      <input type="submit" value="Cambiar">
+      <br>  
+      <br>
+      <br>
+      <br>
+    </form>
+
+    <form action="/settings" method="post" name="delete"  th:attr="onsubmit=|validateFormDelete('${nickName}')|">
+      <h2>Eliminar Cuenta</h2>
       <p>Si deseas eliminar tu cuenta debes escribir en el campo de abajo [(${nickName})]/EliminarCuenta</p>
       <br>
       <br>
-      <input type="text" name="validationDelete">
+      <input type="text" name="validationDelete" required>
+      <input type="hidden" th:value="${nickname}" id="nickname" name="nickname">
       <br>
       <br>
       <input type="submit" style="background-color:red;">
     </form>
   </div>
+
+  <script>
+
+    function validateFormDelete(nickName){
+      let deleteMsg = document.forms["delete"]["validationDelete"].value;
+      
+      console.log(deleteMsg);
+
+
+      let messg = nickName + "/" + "EliminarCuenta";
+
+      console.log(messg);
+      if(deleteMsg != messg){
+        alert("En el campo debes escribir: " + messg + " para poder eliminar la cuenta");
+      }
+    }
+    function validateFormName(){
+      let newName = document.forms["name"]["newName"].value;
+      if(newName.length <=3){
+          alert("El nuevo Nombre Real debe ser superior a 3 caracteres");
+          return false;
+      }
+    }
+
+    function validateFormPasswd(){
+      let passwd1 = document.forms["passw"]["newPasswd1"].value;
+      let passwd2 = document.forms["passw"]["newPasswd2"].value;
+      let passwdAct = document.forms["passw"]["actualpasswd"].value;
+      
+      if(passwd1 != passwd2){
+          alert("Las contraseñas deben coincidir");
+          return false;
+      }else if(newPasswd1.length <= 6){
+          alert("Las contraseñas deben tener una longitud mayor a 6 caracteres");
+          return false;
+      }else if(!containsLetterAndNumber(passwd1)){
+          alert("Las contraseñas deben incluir al menos un numero y una letra");
+          return false;
+      }else if(passwd1 === passwdAct){
+        alert("La nueva contraseña no puede ser igual a la actual");
+        return false;
+      }
+
+
+      function containsLetterAndNumber(str) {
+        let letter = false;
+        let number = false;
+        for (let i = 0; i < str.length; i++) {
+          if (str[i].match(/[a-z]/i)) {
+            letter = true;
+          }
+          if (str[i].match(/[0-9]/)) {
+            number = true;
+          }
+          if (letter && number) {
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+  </script>
 </body>
 </html>

@@ -101,4 +101,16 @@ public class MyService {
         }
         return null;
     }
+
+    public void uploadNameUser(String nickname, String newName) {
+        userDao.uploadNameUser(nickname, newName);
+    }
+
+    public void uploadPasswd(String nickname, String sha256) {
+        userDao.uploadPasswd(nickname, sha256);
+    }
+
+    public void deleteUser(String nickname) {
+        userDao.deleteUser(nickname);
+    }
 }

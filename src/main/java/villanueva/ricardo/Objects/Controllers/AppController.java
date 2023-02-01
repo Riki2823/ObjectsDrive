@@ -41,6 +41,41 @@ public class AppController {
         m.addAttribute("nickName", u.getUsername());
         return "settings";
     }
+
+    @PostMapping("/settings")
+    public String changeUserSettings(HttpSession session, Model m, String newName, String actualpasswd, String newPasswd1, String validationDelete){
+        String nickname = (String) session.getAttribute("user");
+
+        if (newName != null){
+            if (service.getSHA256(actualpasswd).equals(service.getPasswdByUser(nickname))){
+                service.uploadNameUser(nickname, newName);
+                m.addAttribute("message", "El nombre Real ha sido cambiado correctamente");
+            }
+            else {
+                m.addAttribute("message", "La contraseña introducida no es correcta");
+                return "settings";
+            }
+        }
+
+        if (newPasswd1 != null){
+            if (service.getSHA256(actualpasswd).equals(service.getPasswdByUser(nickname))){
+                service.uploadPasswd(nickname, service.getSHA256(newPasswd1));
+                m.addAttribute("message", "La contraseña ha sido cambiada correctamente");
+
+            }else {
+                m.addAttribute("message", "La contraseña introducida no es correcta");
+                return "settings";
+            }
+        }
+
+        if (validationDelete != null) {
+            session.invalidate();
+            service.deleteUser(nickname);
+            return "redirect:/";
+        }
+
+        return "settings";
+    }
     //------------------------------------------------------------------------------
     @GetMapping("/login")
     public String loginget(HttpSession session){

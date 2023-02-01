@@ -52,4 +52,20 @@ public class UserDaoImpl implements UserDao {
         List<User> users = jdbcTemplate.query("select* from Users where nickname = \"" + user + "\"", userRowMapper);
         return users.get(0);
     }
+
+    @Override
+    public void uploadNameUser(String nickname, String newName) {
+        jdbcTemplate.update("UPDATE Users SET nameC=\"" + newName +"\" WHERE nickname=\"" + nickname + "\"");
+    }
+
+    @Override
+    public void uploadPasswd(String nickname, String sha256) {
+        System.out.println(sha256);
+        jdbcTemplate.update("UPDATE Users SET password=\"" + sha256 + "\" WHERE nickname=\"" + nickname + "\"");
+    }
+
+    @Override
+    public void deleteUser(String nickname) {
+        jdbcTemplate.update("DELETE FROM Users WHERE nickname=\"" + nickname + "\"");
+    }
 }

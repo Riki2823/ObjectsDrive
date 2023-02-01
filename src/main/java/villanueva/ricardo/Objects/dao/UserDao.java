@@ -17,4 +17,10 @@ public interface UserDao {
     boolean userExist(String user);
 
     User getUser(String user);
+
+    void uploadNameUser(String nickname, String newName);
+
+    void uploadPasswd(String nickname, String sha256);
+
+    void deleteUser(String nickname);
 }
