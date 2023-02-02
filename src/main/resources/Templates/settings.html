@@ -87,12 +87,24 @@
       if(deleteMsg != messg){
         alert("En el campo debes escribir: " + messg + " para poder eliminar la cuenta");
       }
+
+      if (confirm('¿Estas seguro de que quieres eliminar tu cuenta?')) {
+        return true;
+      } else {
+        return false;
+      }
     }
     function validateFormName(){
       let newName = document.forms["name"]["newName"].value;
       if(newName.length <=3){
           alert("El nuevo Nombre Real debe ser superior a 3 caracteres");
           return false;
+      }
+
+      if (confirm('¿Estas seguro de que quieres cambiar tu  nombre Real?')) {
+        return true;
+      } else {
+        return false;
       }
     }
 
@@ -114,6 +126,13 @@
         alert("La nueva contraseña no puede ser igual a la actual");
         return false;
       }
+
+      if (confirm('¿Estas seguro de que quieres cambiar tu contraseña?')) {
+        return true;
+      } else {
+        return false;
+      }
+
 
 
       function containsLetterAndNumber(str) {

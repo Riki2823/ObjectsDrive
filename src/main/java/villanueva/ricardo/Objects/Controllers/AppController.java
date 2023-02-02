@@ -95,7 +95,7 @@ public class AppController {
         String serverPasswd = service.getPasswdByUser(user);
         if (clientHased.equals(serverPasswd)){
             session.setAttribute("user", user);
-            return "redirect:/objects";
+            return "redirect:objects";
         }else {
             m.addAttribute("message", "La contraseña introducida no és correcta");
             return "login";
@@ -115,6 +115,13 @@ public class AppController {
     @PostMapping("/objects")
     public String postObjects(HttpSession session, String bucketName, Model m) {
         String userName = (String) session.getAttribute("user");
+        bucketName = bucketName.toLowerCase();
+        if (service.bucketExists(bucketName)){
+            m.addAttribute("message", "El nombre del bucket ya existe, debes introducir un nombre diferente");
+            m.addAttribute("userName", userName);
+            m.addAttribute("buckets", service.getBucketsByUser(userName));
+            return "objects";
+        }
         service.addBucket(bucketName, userName);
         return "redirect:objects";
     }
@@ -138,7 +145,15 @@ public class AppController {
     //------------------------------------------------------------------------------
 
     @GetMapping("/objects/{bucket}")
-    public String seebucket(@PathVariable String bucket, Model m){
+    public String seebucket(HttpSession session,  @PathVariable String bucket, Model m){
+        String bucketOwner = service.getOwnerBucket(bucket);
+        String nickname = (String) session.getAttribute("user");
+        if (!bucketOwner.equals(nickname)){
+            m.addAttribute("message", "Ese bucket no es de tu propiedad");
+            m.addAttribute("userName", nickname);
+            m.addAttribute("buckets", service.getBucketsByUser(nickname));
+            return "objects";
+        }
         m.addAttribute("bname", bucket);
         return "bucketCont";
     }
@@ -163,5 +178,20 @@ public class AppController {
 
     //------------------------------------------------------------
 
+    @PostMapping("/deletebucket/{bucket}")
+    public String deleteBucket(HttpSession session, @PathVariable String bucket, Model m){
+        System.out.println(bucket);
+        String bucketOwner = service.getOwnerBucket(bucket);
+        String nickname = (String) session.getAttribute("user");
+        if (!bucketOwner.equals(nickname)){
+            m.addAttribute("message", "Ese bucket no es de tu propiedad");
+            m.addAttribute("userName", nickname);
+            m.addAttribute("buckets", service.getBucketsByUser(nickname));
+            return "objects";
+        }else {
+            service.deleteBucket(bucket);
+            return "objects";
+        }
+    }
 
 }

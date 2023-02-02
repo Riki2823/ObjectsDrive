@@ -25,5 +25,22 @@ public class BucketDaoImpl implements BucketDao{
     @Override
     public void addBucket(String bucketName, String userName) {
         jdbcTemplate.update("INSERT INTO Bucket (owner, name) VALUES(?,?)", userName, bucketName);
+     }
+
+    @Override
+    public String getOwnerBucket(String bucket) {
+        List<Bucket> buckets = jdbcTemplate.query("SELECT * FROM Bucket WHERE name = \"" + bucket + "\"", bucketsRowMapper);
+        return buckets.get(0).getOwnerName();
+    }
+
+    @Override
+    public boolean bucketExists(String bucketName) {
+        List<Bucket> buckets = jdbcTemplate.query("SELECT * FROM Bucket WHERE name = \"" + bucketName + "\"", bucketsRowMapper);
+        return buckets.size() != 0;
+    }
+
+    @Override
+    public void deleteBucket(String bucket) {
+        jdbcTemplate.update("DELETE FROM Bucket WHERE name=\"" + "\"");
     }
 }

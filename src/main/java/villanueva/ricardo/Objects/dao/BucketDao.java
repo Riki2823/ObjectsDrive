@@ -10,4 +10,9 @@ public interface BucketDao {
 
     void addBucket(String bucketName, String userName);
 
+    String getOwnerBucket(String bucket);
+
+    boolean bucketExists(String bucketName);
+
+    void deleteBucket(String bucket);
 }

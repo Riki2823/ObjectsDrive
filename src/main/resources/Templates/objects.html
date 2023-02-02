@@ -10,7 +10,8 @@
     <nav th:replace="navbar.html :: nav"></nav>
     <div id="mainContainer">
         <h1>Buenas [(${userName})]!!! Bienvenido a la lista de tus buckets</h1>
-        <form action="/objects" method="post">
+        <p th:text="${message}"></p>
+        <form action="/objects" method="post" name="bucketForm" onsubmit="return checkSpaces()">
             <br>
             <br>
             <label for="bucketName">Nuevo Bucket: </label>
@@ -28,11 +29,29 @@
                     <td>
                         <a th:href="@{'/objects/' + ${b.name}}">Ver contenido del bucket</a>
                     </td>
-                    <td><button id="trash"></button></td>
+                    <td><form th:action="@{/deletebucket/}"></form></td>/**/
                 </tr>
             </table>    
         </div>
     
     </div>
+
+    <script>
+        function confirmDelete(bucket){
+            if (confirm('¿Estas seguro de que quieres eliminar el bucket?')) {
+              window.location.pathname = '/deletebucket/' + bucket; 
+            } else {
+              return false;
+            }
+        }
+
+        function checkSpaces(){
+            let bucketName = document.forms["bucketForm"]["bucketName"].value;
+            if (bucketName.indexOf(" ") !== -1){
+                alert("Los nombres de los buckets no pueden contener espacios");
+                return false;
+            }
+        }
+    </script>
 </body>
 </html> 

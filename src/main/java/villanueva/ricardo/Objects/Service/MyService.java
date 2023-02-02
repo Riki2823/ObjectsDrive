@@ -113,4 +113,16 @@ public class MyService {
     public void deleteUser(String nickname) {
         userDao.deleteUser(nickname);
     }
+
+    public String getOwnerBucket(String bucket) {
+        return bucketDao.getOwnerBucket(bucket);
+    }
+
+    public boolean bucketExists(String bucketName) {
+        return bucketDao.bucketExists(bucketName);
+    }
+
+    public void deleteBucket(String bucket) {
+        bucketDao.deleteBucket(bucket);
+    }
 }
