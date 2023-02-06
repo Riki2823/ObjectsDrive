@@ -9,7 +9,7 @@
         ('pere', '1234', 'Pere Negre');
 
     CREATE TABLE Bucket(owner varchar(100), name varchar(100), FOREIGN KEY (owner) REFERENCES Users(nickname), PRIMARY KEY(name));
-    INSERT INTO Bucket(     owner, name) VALUES
+    INSERT INTO Bucket(owner, name) VALUES
         ('pere', 'notas');
 
     CREATE TABLE Object(id int AUTO_INCREMENT, uri varchar(500), name varchar(100), owner varchar(100), bucketSrcName varchar(100), date varchar(10), PRIMARY KEY(id), FOREIGN KEY(owner) REFERENCES  Users(nickname), FOREIGN KEY(bucketSrcName) REFERENCES Bucket(name) ON DELETE CASCADE);

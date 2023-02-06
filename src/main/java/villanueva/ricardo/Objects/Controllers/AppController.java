@@ -168,6 +168,7 @@ public class AppController {
             try {
                 byte[] bytesFile = file.getBytes();
                 String nickname = (String) session.getAttribute("user");
+                User user = service.getUser(nickname);
                 String name = file.getOriginalFilename();
 
 
@@ -175,7 +176,7 @@ public class AppController {
                     System.out.println("Ya existe");
                 }else {
                     String uri = request.getRequestURI();
-                    service.uploadFileFirstTime(bytesFile, bucket, name, nickname, uri);
+                    service.uploadFileFirstTime(bytesFile, bucket, name, nickname, uri, user);
                 }
 
             } catch (IOException e) {

@@ -28,4 +28,10 @@ public class ObjectDaoImpl implements ObjectDao{
         boolean is = objects.size() != 0;
         return is;
     }
+
+    @Override
+    public Object getObject(String uriR) {
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri = \"" + uriR + "\"", objectRowMapper);
+        return objects.get(0);
+    }
 }

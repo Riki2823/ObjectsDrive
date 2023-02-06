@@ -61,12 +61,17 @@ public class MyService {
     }
 
 
-    public void uploadFileFirstTime(byte[] bytesFile, String bucket, String name, String owner, String uri) {
+    public void uploadFileFirstTime(byte[] bytesFile, String bucket, String name, String owner, String uri, User u) {
 
         String hash = getMD5(bytesFile);
         String uriR = uri.replace("/objects", "") + "/" + name;
+
         fileDao.uploadFileFirstTime(bytesFile, hash);
         objectDao.insertObject(name, owner, bucket, uriR);
+
+        int idFile = fileDao.getFile(hash).getId();
+        int idObj = objectDao.getObject(uriR).getId();
+        fileDao.newVersion(bytesFile, idObj, idFile);
     }
 
     public boolean objectExists(String name, String uri) {
