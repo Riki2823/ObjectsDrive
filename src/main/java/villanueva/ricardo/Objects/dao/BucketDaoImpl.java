@@ -41,6 +41,6 @@ public class BucketDaoImpl implements BucketDao{
 
     @Override
     public void deleteBucket(String bucket) {
-        jdbcTemplate.update("DELETE FROM Bucket WHERE name=\"" + "\"");
+        jdbcTemplate.update("DELETE FROM Bucket WHERE name=\"" + bucket +"\"");
     }
 }

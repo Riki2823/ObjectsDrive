@@ -61,15 +61,17 @@ public class MyService {
     }
 
 
-    public void uploadFileFirstTime(byte[] bytesFile, String bucket, String name, String owner) {
+    public void uploadFileFirstTime(byte[] bytesFile, String bucket, String name, String owner, String uri) {
 
         String hash = getMD5(bytesFile);
+        String uriR = uri.replace("/objects", "") + "/" + name;
         fileDao.uploadFileFirstTime(bytesFile, hash);
-        objectDao.insertObject(name, owner, bucket);
+        objectDao.insertObject(name, owner, bucket, uriR);
     }
 
-    public boolean objectExists(String name) {
-        return objectDao.objectExists(name);
+    public boolean objectExists(String name, String uri) {
+        String urir = uri.replace("/objects", "") + "/" + name;
+        return objectDao.objectExists(urir);
     }
     public String getSHA256(String input) {
 

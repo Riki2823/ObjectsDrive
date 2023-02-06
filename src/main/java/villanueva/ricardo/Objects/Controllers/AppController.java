@@ -1,5 +1,6 @@
 package villanueva.ricardo.Objects.Controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -113,14 +114,17 @@ public class AppController {
     }
 
     @PostMapping("/objects")
-    public String postObjects(HttpSession session, String bucketName, Model m) {
-        String userName = (String) session.getAttribute("user");
+    public String postObjects(HttpSession session, String bucketName, Model m, HttpServletRequest request) {
+        User u = service.getUser((String) session.getAttribute("user"));
+        String userName = u.getUsername();
         bucketName = bucketName.toLowerCase();
         if (service.bucketExists(bucketName)){
             m.addAttribute("message", "El nombre del bucket ya existe, debes introducir un nombre diferente");
-            m.addAttribute("userName", userName);
+            m.addAttribute("userName", u.getRealname());
             m.addAttribute("buckets", service.getBucketsByUser(userName));
             return "objects";
+
+
         }
         service.addBucket(bucketName, userName);
         return "redirect:objects";
@@ -145,7 +149,7 @@ public class AppController {
     //------------------------------------------------------------------------------
 
     @GetMapping("/objects/{bucket}")
-    public String seebucket(HttpSession session,  @PathVariable String bucket, Model m){
+    public String seebucket(HttpSession session,  @PathVariable String bucket, Model m, HttpServletRequest request){
         String bucketOwner = service.getOwnerBucket(bucket);
         String nickname = (String) session.getAttribute("user");
         if (!bucketOwner.equals(nickname)){
@@ -159,28 +163,40 @@ public class AppController {
     }
 
     @PostMapping("/objects/{bucket}")
-    public String addObject(HttpSession session, @PathVariable String bucket, MultipartFile file){
-        try {
-            byte[] bytesFile = file.getBytes();
-            String nickname = (String) session.getAttribute("user");
-            String name = file.getOriginalFilename();
-            if (service.objectExists(name)){
-                System.out.println("Ya existe");
-            }else {
-                service.uploadFileFirstTime(bytesFile, bucket, name, nickname);
-            }
+    public String addObject(HttpSession session, String dirrectory ,@PathVariable String bucket, MultipartFile file, Model m, HttpServletRequest request){
+        if (file != null && dirrectory == null){
+            try {
+                byte[] bytesFile = file.getBytes();
+                String nickname = (String) session.getAttribute("user");
+                String name = file.getOriginalFilename();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+                if (service.objectExists(name, request.getRequestURI())){
+                    System.out.println("Ya existe");
+                }else {
+                    String uri = request.getRequestURI();
+                    service.uploadFileFirstTime(bytesFile, bucket, name, nickname, uri);
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            m.addAttribute("bname", bucket);
+            return "bucketCont";
+        } else if( dirrectory != null && file == null){
+            m.addAttribute("bname", bucket);
+            System.out.println("Crear directorio");
+            return "bucketCont";
         }
+        m.addAttribute("message", "No puedes subir un archivo y crear un directorio al mismo tiempo ");
         return "bucketCont";
     }
+
 
     //------------------------------------------------------------
 
     @PostMapping("/deletebucket/{bucket}")
     public String deleteBucket(HttpSession session, @PathVariable String bucket, Model m){
-        System.out.println(bucket);
         String bucketOwner = service.getOwnerBucket(bucket);
         String nickname = (String) session.getAttribute("user");
         if (!bucketOwner.equals(nickname)){
@@ -190,7 +206,7 @@ public class AppController {
             return "objects";
         }else {
             service.deleteBucket(bucket);
-            return "objects";
+            return "redirect:/objects";
         }
     }
 

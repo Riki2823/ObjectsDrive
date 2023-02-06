@@ -18,15 +18,14 @@ public class ObjectDaoImpl implements ObjectDao{
         return new Object(rs.getInt("id"), rs.getString("name"), rs.getString("owner"), rs.getString("bucketSrcName"));
     };
     @Override
-    public void insertObject(String name, String owner, String bucket) {
-        jdbcTemplate.update("INSERT INTO Object (name, owner, bucketSrcName) VALUES (?,?,?)", name, owner, bucket);
+    public void insertObject(String name, String owner, String bucket, String uriR) {
+        jdbcTemplate.update("INSERT INTO Object (name, owner, bucketSrcName, uri) VALUES (?,?,?,?)", name, owner, bucket, uriR);
     }
 
     @Override
-    public boolean objectExists(String name) {
-        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE name = \"" + name + "\"", objectRowMapper);
+    public boolean objectExists(String uri) {
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri = \"" + uri + "\"", objectRowMapper);
         boolean is = objects.size() != 0;
         return is;
     }
-
 }
