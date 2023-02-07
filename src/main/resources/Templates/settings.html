@@ -60,7 +60,7 @@
       <br>
     </form>
 
-    <form action="/settings" method="post" name="delete"  th:attr="onsubmit=|validateFormDelete('${nickName}')|">
+    <form action="/settings" method="post" name="delete"  th:attr="onsubmit=| return validateFormDelete('${nickName}')|">
       <h2>Eliminar Cuenta</h2>
       <p>Si deseas eliminar tu cuenta debes escribir en el campo de abajo [(${nickName})]/EliminarCuenta</p>
       <br>
@@ -86,6 +86,7 @@
       console.log(messg);
       if(deleteMsg != messg){
         alert("En el campo debes escribir: " + messg + " para poder eliminar la cuenta");
+        return false
       }
 
       if (confirm('¿Estas seguro de que quieres eliminar tu cuenta?')) {

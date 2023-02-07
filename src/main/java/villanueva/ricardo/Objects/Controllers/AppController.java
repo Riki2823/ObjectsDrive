@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import villanueva.ricardo.Objects.Model.Bucket;
+import villanueva.ricardo.Objects.Model.Object;
 import villanueva.ricardo.Objects.Model.User;
+import villanueva.ricardo.Objects.Model.Version;
 import villanueva.ricardo.Objects.Service.MyService;
 
 import java.io.IOException;
@@ -158,6 +160,8 @@ public class AppController {
             m.addAttribute("buckets", service.getBucketsByUser(nickname));
             return "objects";
         }
+        List<Object> objects = service.getAllUserObjects(nickname);
+        m.addAttribute("objects", objects);
         m.addAttribute("bname", bucket);
         return "bucketCont";
     }
@@ -208,6 +212,24 @@ public class AppController {
         }else {
             service.deleteBucket(bucket);
             return "redirect:/objects";
+        }
+    }
+
+    @GetMapping("/objects/{bucket}/{object}")
+    public String getVersions(HttpSession session, @PathVariable String bucket, @PathVariable String object, Model m){
+        String bucketOwner = service.getOwnerBucket(bucket);
+        String nickname = (String) session.getAttribute("user");
+        if (!bucketOwner.equals(nickname)){
+            m.addAttribute("message", "Ese bucket no es de tu propiedad");
+            m.addAttribute("userName", nickname);
+            m.addAttribute("buckets", service.getBucketsByUser(nickname));
+            return "objects";
+        }else {
+            Object object1 = service.getObject("/" + bucket + "/" + object);
+            List<Version> versions = service.getAllVersions(object1.getId());
+                m.addAttribute("oname", object1.getName());
+            m.addAttribute("versions", versions);
+            return "objectView";
         }
     }
 

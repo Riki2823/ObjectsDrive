@@ -15,7 +15,7 @@ public class ObjectDaoImpl implements ObjectDao{
     JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Object> objectRowMapper = (rs, rn ) -> {
-        return new Object(rs.getInt("id"), rs.getString("name"), rs.getString("owner"), rs.getString("bucketSrcName"));
+        return new Object(rs.getInt("id"), rs.getString("name"), rs.getString("owner"), rs.getString("bucketSrcName"), rs.getString("uri"));
     };
     @Override
     public void insertObject(String name, String owner, String bucket, String uriR) {
@@ -33,5 +33,10 @@ public class ObjectDaoImpl implements ObjectDao{
     public Object getObject(String uriR) {
         List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri = \"" + uriR + "\"", objectRowMapper);
         return objects.get(0);
+    }
+
+    @Override
+    public List<Object> getAllUserObjects(String nickname) {
+        return jdbcTemplate.query("SELECT * FROM Object WHERE owner = \"" + nickname + "\"", objectRowMapper);
     }
 }

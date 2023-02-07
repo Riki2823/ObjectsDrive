@@ -46,4 +46,9 @@ public class FileDaoImpl implements FileDao{
          return files.get(0).getHash();
     }
 
+    @Override
+    public List<Version> getVersions(int objId) {
+        return jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=\"" + objId + "\" ORDER BY fechaMod DESC", versionRowMapper);
+    }
+
 }

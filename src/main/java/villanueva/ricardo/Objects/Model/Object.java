@@ -7,11 +7,14 @@ public class Object {
     private String bucketSrcName;
     private String date;
 
-    public Object(int id, String name, String owner, String bucketSrcName) {
+    private String uri;
+
+    public Object(int id, String name, String owner, String bucketSrcName, String uri) {
         this.id = id;
         this.name = name;
         this.owner = owner;
         this.bucketSrcName = bucketSrcName;
+        this.uri = uri;
     }
 
     public int getId() {
@@ -52,5 +55,13 @@ public class Object {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

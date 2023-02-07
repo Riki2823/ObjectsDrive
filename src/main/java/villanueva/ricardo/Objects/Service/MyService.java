@@ -3,7 +3,9 @@ package villanueva.ricardo.Objects.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import villanueva.ricardo.Objects.Model.Bucket;
+import villanueva.ricardo.Objects.Model.Object;
 import villanueva.ricardo.Objects.Model.User;
+import villanueva.ricardo.Objects.Model.Version;
 import villanueva.ricardo.Objects.dao.BucketDao;
 import villanueva.ricardo.Objects.dao.FileDao;
 import villanueva.ricardo.Objects.dao.ObjectDao;
@@ -112,10 +114,8 @@ public class MyService {
         if (!hashLastVersion.equals(actualHash)){
             fileDao.uploadFileFirstTime(bytesFile, actualHash);
             fileDao.newVersion(objectDao.getObject(uriR).getId(), fileDao.getFile(actualHash).getId());
-            System.out.println("Nueva Version");
-        } else {
-            System.out.println("Es La misma version");
         }
+
     }
 
 
@@ -149,5 +149,18 @@ public class MyService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Object> getAllUserObjects(String nickname) {
+        return objectDao.getAllUserObjects(nickname);
+
+    }
+
+    public Object getObject(String object) {
+        return objectDao.getObject(object);
+    }
+
+    public List<Version> getAllVersions(int objId) {
+        return fileDao.getVersions(objId);
     }
 }
