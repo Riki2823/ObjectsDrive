@@ -182,6 +182,8 @@ public class AppController {
                 }else {
                     service.uploadFileFirstTime(bytesFile, bucket, name, nickname, uri, user);
                 }
+                List<Object> objects = service.getAllUserObjects(nickname);
+                m.addAttribute("objects", objects);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -227,7 +229,7 @@ public class AppController {
         }else {
             Object object1 = service.getObject("/" + bucket + "/" + object);
             List<Version> versions = service.getAllVersions(object1.getId());
-                m.addAttribute("oname", object1.getName());
+            m.addAttribute("oname", object1.getName());
             m.addAttribute("versions", versions);
             return "objectView";
         }
