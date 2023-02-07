@@ -71,13 +71,55 @@ public class MyService {
 
         int idFile = fileDao.getFile(hash).getId();
         int idObj = objectDao.getObject(uriR).getId();
-        fileDao.newVersion(bytesFile, idObj, idFile);
+        fileDao.newVersion(idObj, idFile);
     }
 
     public boolean objectExists(String name, String uri) {
         String urir = uri.replace("/objects", "") + "/" + name;
         return objectDao.objectExists(urir);
     }
+
+
+    public void uploadNameUser(String nickname, String newName) {
+        userDao.uploadNameUser(nickname, newName);
+    }
+
+    public void uploadPasswd(String nickname, String sha256) {
+        userDao.uploadPasswd(nickname, sha256);
+    }
+
+    public void deleteUser(String nickname) {
+        userDao.deleteUser(nickname);
+    }
+
+    public String getOwnerBucket(String bucket) {
+        return bucketDao.getOwnerBucket(bucket);
+    }
+
+    public boolean bucketExists(String bucketName) {
+        return bucketDao.bucketExists(bucketName);
+    }
+
+    public void deleteBucket(String bucket) {
+        bucketDao.deleteBucket(bucket);
+    }
+
+    public void checkVersion(byte[] bytesFile, User user, String uri, String name) {
+        String uriR = uri.replace("/objects", "") + "/" + name;
+        String hashLastVersion = fileDao.getHashLastVersion(uriR, objectDao.getObject(uriR).getId());
+        String actualHash = getMD5(bytesFile);
+
+        if (!hashLastVersion.equals(actualHash)){
+            fileDao.uploadFileFirstTime(bytesFile, actualHash);
+            fileDao.newVersion(objectDao.getObject(uriR).getId(), fileDao.getFile(actualHash).getId());
+            System.out.println("Nueva Version");
+        } else {
+            System.out.println("Es La misma version");
+        }
+    }
+
+
+
     public String getSHA256(String input) {
 
         String toReturn = null;
@@ -107,29 +149,5 @@ public class MyService {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void uploadNameUser(String nickname, String newName) {
-        userDao.uploadNameUser(nickname, newName);
-    }
-
-    public void uploadPasswd(String nickname, String sha256) {
-        userDao.uploadPasswd(nickname, sha256);
-    }
-
-    public void deleteUser(String nickname) {
-        userDao.deleteUser(nickname);
-    }
-
-    public String getOwnerBucket(String bucket) {
-        return bucketDao.getOwnerBucket(bucket);
-    }
-
-    public boolean bucketExists(String bucketName) {
-        return bucketDao.bucketExists(bucketName);
-    }
-
-    public void deleteBucket(String bucket) {
-        bucketDao.deleteBucket(bucket);
     }
 }

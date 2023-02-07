@@ -16,4 +16,4 @@
 
     CREATE TABLE File(id int AUTO_INCREMENT, content LONGBLOB, hash varchar(100), PRIMARY KEY(id));
 
-    CREATE TABLE FileVersion(idrow int AUTO_INCREMENT, idFile int, idObj int, content LONGBLOB,  PRIMARY KEY(idrow) ,FOREIGN KEY(idFile) REFERENCES File(id), FOREIGN KEY(idObj) REFERENCES Object(id) ON DELETE CASCADE);
+    CREATE TABLE FileVersion(idrow int AUTO_INCREMENT, idFile int, idObj int, fechaMod TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(idrow) ,FOREIGN KEY(idFile) REFERENCES File(id), FOREIGN KEY(idObj) REFERENCES Object(id) ON DELETE CASCADE);

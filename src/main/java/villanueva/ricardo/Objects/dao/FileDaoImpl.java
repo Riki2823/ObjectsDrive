@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import villanueva.ricardo.Objects.Model.File;
-import villanueva.ricardo.Objects.Model.Object;
+import villanueva.ricardo.Objects.Model.Version;
 
 import java.util.List;
 
@@ -17,6 +17,10 @@ public class FileDaoImpl implements FileDao{
 
     private final RowMapper<File> fileRowMapper = (rs, rn ) -> {
         return new File(rs.getInt("id"), rs.getBytes("content"), rs.getString("hash"));
+    };
+
+    private final RowMapper<Version> versionRowMapper = (rs, rn) ->{
+        return new Version(rs.getInt("idrow"), rs.getInt("idFile"), rs.getInt("idObj"), rs.getString("fechaMod"));
     };
     @Override
     public void uploadFileFirstTime(byte[] bytesFile, String hash) {
@@ -30,8 +34,16 @@ public class FileDaoImpl implements FileDao{
     }
 
     @Override
-    public void newVersion(byte[] bytesFile, int idObj, int idFile) {
-        jdbcTemplate.update("INSERT INTO FileVersion (idFile, idObj, content) VALUES (?,?,?)", idFile, idObj, bytesFile);
+    public void newVersion(int idObj, int idFile) {
+        jdbcTemplate.update("INSERT INTO FileVersion (idFile, idObj) VALUES (?,?)", idFile, idObj);
+    }
+
+    @Override
+    public String getHashLastVersion(String uriR, int idObj) {
+         List<Version> versions = jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=\"" + idObj + "\" ORDER BY fechaMod DESC", versionRowMapper);
+         List<File> files = jdbcTemplate.query("SELECT * FROM File WHERE id=\"" + versions.get(0).getIdFile() + "\"", fileRowMapper);
+
+         return files.get(0).getHash();
     }
 
 }

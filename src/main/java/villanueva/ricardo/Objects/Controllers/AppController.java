@@ -171,11 +171,11 @@ public class AppController {
                 User user = service.getUser(nickname);
                 String name = file.getOriginalFilename();
 
+                String uri = request.getRequestURI();
 
                 if (service.objectExists(name, request.getRequestURI())){
-                    System.out.println("Ya existe");
+                    service.checkVersion(bytesFile, user, uri, name);
                 }else {
-                    String uri = request.getRequestURI();
                     service.uploadFileFirstTime(bytesFile, bucket, name, nickname, uri, user);
                 }
 

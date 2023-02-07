@@ -10,5 +10,7 @@ public interface FileDao {
 
     File getFile(String hash);
 
-    void newVersion(byte[] bytesFile, int idObj, int idFile);
+    void newVersion(int idObj, int idFile);
+
+    String getHashLastVersion(String uriR, int idObj);
 }
