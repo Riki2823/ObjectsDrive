@@ -20,4 +20,6 @@ public interface FileDao {
     List<Version> getVersions(int objId);
 
     File getFilebyId(String fid);
+
+    void deleteFiles(List<File> filesID);
 }

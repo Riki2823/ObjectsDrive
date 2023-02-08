@@ -57,4 +57,11 @@ public class FileDaoImpl implements FileDao{
         return file.get(0);
     }
 
+    @Override
+    public void deleteFiles(List<File> filesID) {
+        for (File f :filesID){
+            jdbcTemplate.update("DELETE FROM File WHERE id=?", f.getId());
+        }
+    }
+
 }

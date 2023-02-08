@@ -10,7 +10,9 @@ import villanueva.ricardo.Objects.dao.ObjectDao;
 import villanueva.ricardo.Objects.dao.UserDao;
 
 import java.math.BigInteger;
+import java.nio.file.FileVisitor;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -101,7 +103,23 @@ public class MyService {
     }
 
     public void deleteBucket(String bucket) {
+        List<File> filesID = getAllFilesId(bucket);
+        fileDao.deleteFiles(filesID);
         bucketDao.deleteBucket(bucket);
+    }
+
+    private List<File> getAllFilesId(String bucket) {
+        List<Object> objects = objectDao.getAllBucketObjects(bucket);
+        List<File> files = new ArrayList<>();
+
+        for (Object o : objects){
+            List<Version> versions = fileDao.getVersions(o.getId());
+            for (Version v: versions){
+                files.add(fileDao.getFilebyId(String.valueOf(v.getIdFile())));
+            }
+        }
+
+        return files;
     }
 
     public void checkVersion(byte[] bytesFile, User user, String uri, String name) {

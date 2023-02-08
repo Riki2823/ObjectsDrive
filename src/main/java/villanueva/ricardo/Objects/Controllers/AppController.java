@@ -239,11 +239,7 @@ public class AppController {
 
     @GetMapping("/download/{objid}/{fid}")
     public ResponseEntity<byte[]> download (HttpSession session, @PathVariable String objid, @PathVariable String fid, Model m ){
-        String userNameSession = (String) session.getAttribute("user");
 
-        String owner = service.getObjectById(objid).getOwner();
-
-        if (userNameSession.equals(owner)){
             File file = service.getFileById(fid);
             Object object = service.getObjectById(objid);
 
@@ -258,11 +254,6 @@ public class AppController {
 
             return new ResponseEntity<>(content, header, HttpStatus.OK);
 
-        }else {
-            m.addAttribute("message", "No eres propietaro de este documento, no puedes descargarlo");
-            return null;
-        }
-        
     }
 
 }
