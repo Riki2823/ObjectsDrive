@@ -40,20 +40,20 @@ public class FileDaoImpl implements FileDao{
 
     @Override
     public String getHashLastVersion(String uriR, int idObj) {
-         List<Version> versions = jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=\"" + idObj + "\" ORDER BY fechaMod DESC", versionRowMapper);
-         List<File> files = jdbcTemplate.query("SELECT * FROM File WHERE id=\"" + versions.get(0).getIdFile() + "\"", fileRowMapper);
+         List<Version> versions = jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=? ORDER BY fechaMod DESC", new Object[]{idObj}, versionRowMapper);
+         List<File> files = jdbcTemplate.query("SELECT * FROM File WHERE id=?", new Object[]{versions.get(0).getIdFile()}, fileRowMapper);
 
          return files.get(0).getHash();
     }
 
     @Override
     public List<Version> getVersions(int objId) {
-        return jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=\"" + objId + "\" ORDER BY fechaMod DESC", versionRowMapper);
+        return jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=? ORDER BY fechaMod DESC", new Object[]{objId}, versionRowMapper);
     }
 
     @Override
     public File getFilebyId(String fid) {
-        List<File>file = jdbcTemplate.query("SELECT * FROM File WHERE id = \"" + fid + "\"", fileRowMapper);
+        List<File>file = jdbcTemplate.query("SELECT * FROM File WHERE id =?", new Object[]{fid}, fileRowMapper);
         return file.get(0);
     }
 
