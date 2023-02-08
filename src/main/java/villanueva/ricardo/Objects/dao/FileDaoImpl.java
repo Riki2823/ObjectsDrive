@@ -29,7 +29,7 @@ public class FileDaoImpl implements FileDao{
 
     @Override
     public File getFile(String hash) {
-        List<File> files = jdbcTemplate.query("SELECT * FROM File WHERE hash=\""+ hash + "\"", fileRowMapper);
+        List<File> files = jdbcTemplate.query("SELECT * FROM File WHERE hash=?", new Object[]{hash}, fileRowMapper);
         return files.get(0);
     }
 
