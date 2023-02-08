@@ -36,7 +36,13 @@ public class ObjectDaoImpl implements ObjectDao{
     }
 
     @Override
-    public List<Object> getAllUserObjects(String nickname) {
-        return jdbcTemplate.query("SELECT * FROM Object WHERE owner = \"" + nickname + "\"", objectRowMapper);
+    public List<Object> getAllBucketObjects(String bucket) {
+        return jdbcTemplate.query("SELECT * FROM Object WHERE bucketSrcName = \"" + bucket + "\"", objectRowMapper);
+    }
+
+    @Override
+    public Object getObjectById(String objid) {
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE id = \"" + objid + "\"", objectRowMapper);
+        return objects.get(0);
     }
 }

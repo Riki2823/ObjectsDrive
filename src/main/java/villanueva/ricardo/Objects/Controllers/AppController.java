@@ -3,16 +3,18 @@ package villanueva.ricardo.Objects.Controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
-import villanueva.ricardo.Objects.Model.Bucket;
+import villanueva.ricardo.Objects.Model.*;
 import villanueva.ricardo.Objects.Model.Object;
-import villanueva.ricardo.Objects.Model.User;
-import villanueva.ricardo.Objects.Model.Version;
 import villanueva.ricardo.Objects.Service.MyService;
 
 import java.io.IOException;
@@ -160,7 +162,7 @@ public class AppController {
             m.addAttribute("buckets", service.getBucketsByUser(nickname));
             return "objects";
         }
-        List<Object> objects = service.getAllUserObjects(nickname);
+        List<Object> objects = service.getAllBucketObjects(bucket);
         m.addAttribute("objects", objects);
         m.addAttribute("bname", bucket);
         return "bucketCont";
@@ -182,7 +184,7 @@ public class AppController {
                 }else {
                     service.uploadFileFirstTime(bytesFile, bucket, name, nickname, uri, user);
                 }
-                List<Object> objects = service.getAllUserObjects(nickname);
+                List<Object> objects = service.getAllBucketObjects(bucket);
                 m.addAttribute("objects", objects);
 
             } catch (IOException e) {
@@ -233,6 +235,34 @@ public class AppController {
             m.addAttribute("versions", versions);
             return "objectView";
         }
+    }
+
+    @GetMapping("/download/{objid}/{fid}")
+    public ResponseEntity<byte[]> download (HttpSession session, @PathVariable String objid, @PathVariable String fid, Model m ){
+        String userNameSession = (String) session.getAttribute("user");
+
+        String owner = service.getObjectById(objid).getOwner();
+
+        if (userNameSession.equals(owner)){
+            File file = service.getFileById(fid);
+            Object object = service.getObjectById(objid);
+
+            byte[] content = file.getContent();
+            String nameFile = object.getName();
+
+            HttpHeaders header = new HttpHeaders();
+
+            header.setContentType(MediaType.valueOf("application/octet-stream"));
+            header.setContentLength(content.length);
+            header.set("content-disposition", "attachment;filename=" + nameFile);
+
+            return new ResponseEntity<>(content, header, HttpStatus.OK);
+
+        }else {
+            m.addAttribute("message", "No eres propietaro de este documento, no puedes descargarlo");
+            return null;
+        }
+        
     }
 
 }

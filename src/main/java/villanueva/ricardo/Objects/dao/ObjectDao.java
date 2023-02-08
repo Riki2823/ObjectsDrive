@@ -13,5 +13,7 @@ public interface ObjectDao {
 
     Object getObject(String uriR);
 
-    List<Object> getAllUserObjects(String nickname);
+    List<Object> getAllBucketObjects(String bucket);
+
+    Object getObjectById(String objid);
 }

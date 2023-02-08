@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Crear Cuenta!</title>
-    <link th:href="@{/style/styleSignup.css}" rel="stylesheet" />
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
 </head>
 <body>
-    <div id="mainContainer">
+    <div class="mainContainer">
         <h1>Creacion de cuentas!!</h1>
         <p th:text="${message}"></p>
         <form action="/signup" method="post" name="login" onsubmit="return validateForm()">

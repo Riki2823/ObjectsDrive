@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title th:text="${oname}"></title>
+    <link th:href="@{/style/navStyle.css}" rel="stylesheet" />
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
+</head>
+<body>
+    <nav th:replace="navbar.html :: nav"></nav>
+        
+    <div class="mainContainer">
+        <p th:text="${message}"></p>
+        <table>
+            <tr>
+                <th>Fecha</th>
+                <th>Enlace de descarga</th>
+            </tr>
+            <tr th:each="v : ${versions}">
+                <td th:text="${v.date}"></td>
+                <td>
+                    <a th:href="@{|/download/${v.idObj}/${v.idFile}|}">Descargar</a>
+                </td>
+            </tr>
+        </table> 
+    </div>
+</body>
+</html>

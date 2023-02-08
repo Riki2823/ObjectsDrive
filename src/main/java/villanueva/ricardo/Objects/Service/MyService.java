@@ -2,10 +2,8 @@ package villanueva.ricardo.Objects.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import villanueva.ricardo.Objects.Model.Bucket;
+import villanueva.ricardo.Objects.Model.*;
 import villanueva.ricardo.Objects.Model.Object;
-import villanueva.ricardo.Objects.Model.User;
-import villanueva.ricardo.Objects.Model.Version;
 import villanueva.ricardo.Objects.dao.BucketDao;
 import villanueva.ricardo.Objects.dao.FileDao;
 import villanueva.ricardo.Objects.dao.ObjectDao;
@@ -151,8 +149,8 @@ public class MyService {
         return null;
     }
 
-    public List<Object> getAllUserObjects(String nickname) {
-        return objectDao.getAllUserObjects(nickname);
+    public List<Object> getAllBucketObjects(String bucket) {
+        return objectDao.getAllBucketObjects(bucket);
 
     }
 
@@ -162,5 +160,13 @@ public class MyService {
 
     public List<Version> getAllVersions(int objId) {
         return fileDao.getVersions(objId);
+    }
+
+    public File getFileById(String fid) {
+        return fileDao.getFilebyId(fid);
+    }
+
+    public Object getObjectById(String objid) {
+       return objectDao.getObjectById(objid);
     }
 }

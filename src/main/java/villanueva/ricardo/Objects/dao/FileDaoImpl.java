@@ -51,4 +51,10 @@ public class FileDaoImpl implements FileDao{
         return jdbcTemplate.query("SELECT * FROM FileVersion WHERE idObj=\"" + objId + "\" ORDER BY fechaMod DESC", versionRowMapper);
     }
 
+    @Override
+    public File getFilebyId(String fid) {
+        List<File>file = jdbcTemplate.query("SELECT * FROM File WHERE id = \"" + fid + "\"", fileRowMapper);
+        return file.get(0);
+    }
+
 }

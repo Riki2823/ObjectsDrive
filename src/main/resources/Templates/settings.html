@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajustes</title>
-    <link th:href="@{/style/stylesettings.css}" rel="stylesheet" />
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
     <link th:href="@{/style/navStyle.css}" rel="stylesheet" />
 
 </head>
 <body>
   <nav th:replace="navbar.html :: nav"></nav>
 
-  <div id="mainContainer">
+  <div class="mainContainer">
     <h1>Esta es la pestaña de ajustes</h1>
 
     <p th:text="${message}" style="color: red;"></p>

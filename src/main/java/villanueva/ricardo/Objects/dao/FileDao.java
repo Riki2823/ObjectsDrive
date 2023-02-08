@@ -18,4 +18,6 @@ public interface FileDao {
     String getHashLastVersion(String uriR, int idObj);
 
     List<Version> getVersions(int objId);
+
+    File getFilebyId(String fid);
 }

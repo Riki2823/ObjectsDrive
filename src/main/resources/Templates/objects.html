@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Objects</title>
-    <link th:href="@{/style/styleObjects.css}" rel="stylesheet" />
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
     <link th:href="@{/style/navStyle.css}" rel="stylesheet" />
 </head>
 <body>
     <nav th:replace="navbar.html :: nav"></nav>
-    <div id="mainContainer">
+    <div class="mainContainer">
         <h1>Buenas [(${userName})]!!! Bienvenido a la lista de tus buckets</h1>
         <p th:text="${message}"></p>
         <form action="/objects" method="post" name="bucketForm" onsubmit="return checkSpaces()">
