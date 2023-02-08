@@ -19,7 +19,7 @@ public class BucketDaoImpl implements BucketDao{
 
     @Override
     public List<Bucket> getBucketsByUser(String username) {
-        return jdbcTemplate.query("SELECT * FROM Bucket WHERE owner=\"" + username + "\"", bucketsRowMapper);
+        return jdbcTemplate.query("SELECT * FROM Bucket WHERE owner=?", new Object[]{username}, bucketsRowMapper);
     }
 
     @Override
@@ -29,18 +29,18 @@ public class BucketDaoImpl implements BucketDao{
 
     @Override
     public String getOwnerBucket(String bucket) {
-        List<Bucket> buckets = jdbcTemplate.query("SELECT * FROM Bucket WHERE name = \"" + bucket + "\"", bucketsRowMapper);
+        List<Bucket> buckets = jdbcTemplate.query("SELECT * FROM Bucket WHERE name =?", new Object[]{bucket}, bucketsRowMapper);
         return buckets.get(0).getOwnerName();
     }
 
     @Override
     public boolean bucketExists(String bucketName) {
-        List<Bucket> buckets = jdbcTemplate.query("SELECT * FROM Bucket WHERE name = \"" + bucketName + "\"", bucketsRowMapper);
+        List<Bucket> buckets = jdbcTemplate.query("SELECT * FROM Bucket WHERE name =?", new Object[]{bucketName}, bucketsRowMapper);
         return buckets.size() != 0;
     }
 
     @Override
     public void deleteBucket(String bucket) {
-        jdbcTemplate.update("DELETE FROM Bucket WHERE name=\"" + bucket +"\"");
+        jdbcTemplate.update("DELETE FROM Bucket WHERE name=?", bucket);
     }
 }
