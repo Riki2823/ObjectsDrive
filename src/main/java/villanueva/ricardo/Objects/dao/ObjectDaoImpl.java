@@ -24,25 +24,25 @@ public class ObjectDaoImpl implements ObjectDao{
 
     @Override
     public boolean objectExists(String uri) {
-        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri = \"" + uri + "\"", objectRowMapper);
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri =?", new java.lang.Object[]{uri}, objectRowMapper);
         boolean is = objects.size() != 0;
         return is;
     }
 
     @Override
     public Object getObject(String uriR) {
-        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri = \"" + uriR + "\"", objectRowMapper);
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri =?", new java.lang.Object[]{uriR}, objectRowMapper);
         return objects.get(0);
     }
 
     @Override
     public List<Object> getAllBucketObjects(String bucket) {
-        return jdbcTemplate.query("SELECT * FROM Object WHERE bucketSrcName = \"" + bucket + "\"", objectRowMapper);
+        return jdbcTemplate.query("SELECT * FROM Object WHERE bucketSrcName =?", new java.lang.Object[]{bucket}, objectRowMapper);
     }
 
     @Override
     public Object getObjectById(String objid) {
-        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE id = \"" + objid + "\"", objectRowMapper);
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE id =?", new java.lang.Object[]{objid}, objectRowMapper);
         return objects.get(0);
     }
 }
