@@ -256,4 +256,20 @@ public class AppController {
 
     }
 
+    @PostMapping("/deleteobj/{bucket}/{object}")
+    public String deleteObj(Model m, HttpSession session, @PathVariable String bucket, @PathVariable String object){
+        String owner = service.getOwnerBucket(bucket);
+        String user = (String) session.getAttribute("user");
+        if (!owner.equals(user)){
+            m.addAttribute("message", "No puedes eliminar un objeto que no es de tu propiedad");
+            m.addAttribute("userName", user);
+            m.addAttribute("buckets", service.getBucketsByUser(user));
+            return "objects";
+        }else {
+            String uri ="/" +  bucket + "/" + object;
+            service.deleteObject(uri);
+            return "redirect:/objects/" + bucket;
+        }
+    }
+
 }

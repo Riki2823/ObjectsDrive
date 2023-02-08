@@ -103,12 +103,12 @@ public class MyService {
     }
 
     public void deleteBucket(String bucket) {
-        List<File> filesID = getAllFilesId(bucket);
+        List<File> filesID = getAllFilesBucket(bucket);
         fileDao.deleteFiles(filesID);
         bucketDao.deleteBucket(bucket);
     }
 
-    private List<File> getAllFilesId(String bucket) {
+    private List<File> getAllFilesBucket(String bucket) {
         List<Object> objects = objectDao.getAllBucketObjects(bucket);
         List<File> files = new ArrayList<>();
 
@@ -186,5 +186,24 @@ public class MyService {
 
     public Object getObjectById(String objid) {
        return objectDao.getObjectById(objid);
+    }
+
+    public void deleteObject(String uri) {
+        List<File> filesID = getAllFilesObject(uri);
+        fileDao.deleteFiles(filesID);
+        objectDao.deleteObject(uri);
+    }
+
+    private List<File> getAllFilesObject(String uri) {
+        List<Version> versions= getAllVersions(getObjectByUri(uri).getId());
+        List<File> files = new ArrayList<>();
+        for (Version v: versions){
+            files.add(fileDao.getFilebyId(String.valueOf(v.getIdFile())));
+        }
+        return files;
+    }
+
+    private Object getObjectByUri(String uri) {
+        return objectDao.getOBjectByUri(uri);
     }
 }

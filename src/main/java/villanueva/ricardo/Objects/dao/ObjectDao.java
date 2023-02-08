@@ -16,4 +16,8 @@ public interface ObjectDao {
     List<Object> getAllBucketObjects(String bucket);
 
     Object getObjectById(String objid);
+
+    void deleteObject(String uri);
+
+    Object getOBjectByUri(String uri);
 }

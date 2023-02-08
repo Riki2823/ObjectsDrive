@@ -15,7 +15,7 @@ public class ObjectsApplication implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new MyAuthInterceptor()).addPathPatterns("/objects/**").addPathPatterns("/settings").addPathPatterns("/download/**").addPathPatterns("/deleteBucket/**");
+		registry.addInterceptor(new MyAuthInterceptor()).addPathPatterns("/objects/**").addPathPatterns("/settings").addPathPatterns("/download/**").addPathPatterns("/deleteBucket/**").addPathPatterns("/deleteobj/**");
 
 	}
 }

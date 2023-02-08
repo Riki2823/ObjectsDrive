@@ -30,8 +30,23 @@
                 <td>
                     <a th:href="@{'/objects' + ${o.uri}}">Ver el listado de versiones</a>
                 </td>
+                <td>
+                    <form th:action="@{|/deleteobj/${bname}/${o.name}|}" method="post" onsubmit="return confirmDelete()">
+                        <input type="submit" value="Elimina">
+                    </form>
+                </td>
             </tr>
         </table>    
     </div>
+
+    <script>
+        function confirmDelete(){
+            if (confirm('¿Estas seguro de que quieres eliminar el objeto?')) {
+                return true;
+            } else {
+              return false;
+            }
+        }
+    </script>
 </body>
 </html>

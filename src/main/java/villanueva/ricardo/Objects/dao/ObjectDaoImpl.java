@@ -45,4 +45,15 @@ public class ObjectDaoImpl implements ObjectDao{
         List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE id =?", new java.lang.Object[]{objid}, objectRowMapper);
         return objects.get(0);
     }
+
+    @Override
+    public void deleteObject(String uri) {
+        jdbcTemplate.update("DELETE FROM Object WHERE uri=?", uri);
+    }
+
+    @Override
+    public Object getOBjectByUri(String uri) {
+        List<Object> objects = jdbcTemplate.query("SELECT * FROM Object WHERE uri=?", new java.lang.Object[]{uri}, objectRowMapper);
+        return objects.get(0);
+    }
 }
